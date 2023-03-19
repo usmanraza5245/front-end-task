@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState } from "react";
+import Form from "./components/Form";
+import "./App.css";
+import { Grid } from "@mui/material";
+import SensorTable from "./components/SensorTable";
 function App() {
+  const [data, setData] = useState([]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Grid container spacing={{ xs: 0, md: 3, lg: 5 }}>
+        <Grid item xs={12} md={6} lg={4}>
+          <Form data={data} setData={setData} />
+        </Grid>
+        <Grid item xs={12} md={6} lg={8}>
+          <SensorTable data={data} />
+        </Grid>
+      </Grid>
     </div>
   );
 }
