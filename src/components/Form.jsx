@@ -4,7 +4,10 @@ import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 
 function Form(props) {
+  // Destructuring the props object
   const { data, setData } = props;
+
+  // Using the useState hook to create a formData object and an error message
   const [formData, setFormData] = useState({
     equipmentType: "",
     equipmentName: "",
@@ -15,6 +18,7 @@ function Form(props) {
 
   const [error, setError] = useState("");
 
+  // Handling changes in the form fields and updating the formData object
   const handleChange = (e, type) => {
     const { value } = e.target;
     setFormData((formData) => ({
@@ -23,20 +27,25 @@ function Form(props) {
     }));
   };
 
+  // Handling form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Checking if the equipment name already exists in the data array
     const isUniqueEquipmentName = data.find(
       (record) => record.equipmentName === formData.equipmentName
     );
-
+    // Displaying an error message if the equipment name already exist
     if (
       isUniqueEquipmentName &&
       Object.keys(isUniqueEquipmentName).length > 0
     ) {
       setError("Equipment name must be unique");
     } else {
+      // Adding the form data to the data array if the equipment name is unique
       setError("");
       setData((data) => [...data, formData]);
+      // Resetting the formData object to empty values after successful form submission
       setFormData({
         equipmentType: "",
         equipmentName: "",
@@ -46,6 +55,8 @@ function Form(props) {
       });
     }
   };
+
+  // Rendering the form with input and select fields, error message and a submit button
   return (
     <Box
       component={"form"}
@@ -53,8 +64,6 @@ function Form(props) {
       autoComplete="off"
       onSubmit={handleSubmit}
     >
-      {error && <Typography sx={{ mx: 1, color: "red" }}>{error}</Typography>}
-
       <FormSelect
         value={formData.equipmentType}
         options={equipmentData}
@@ -87,7 +96,9 @@ function Form(props) {
         onChange={(e) => handleChange(e, "sensorPoint")}
         required={true}
         type="number"
+        min={0}
       />
+      {error && <Typography sx={{ mx: 1, color: "red" }}>{error}</Typography>}
       <Button variant="contained" color="primary" type="submit" sx={{ m: 1 }}>
         Submit
       </Button>
@@ -97,6 +108,7 @@ function Form(props) {
 
 export default Form;
 
+// Creating equipmentData and sensorData arrays for the select fields
 const equipmentData = [
   {
     id: 1,
